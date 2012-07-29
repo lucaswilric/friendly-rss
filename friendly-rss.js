@@ -20,10 +20,10 @@ var s = http.createServer(function(req, res) {
     
     res.writeHead(200, { 'content-type': 'application/xml' });
     
-    if (feeds[tag] && now < (feeds[tag].time + 300000)) {
-        res.end(feeds[tag].text);
-    }
-    else {
+//    if (feeds[tag] && now < (feeds[tag].time + 300000)) {
+//        res.end(feeds[tag].text);
+//    }
+//    else {
         http.get("http://grabbit.lucasrichter.id.au/download_jobs/tagged/" + tag + "/feed.rss", 
             function(r) {
                 feed = {time: now, text: ''}
@@ -36,8 +36,8 @@ var s = http.createServer(function(req, res) {
                     res.end(); 
                 });
             });
-    }
-});
+//        }
+    });
 
 var port = process.env.PORT || 5000;
 s.listen(port);

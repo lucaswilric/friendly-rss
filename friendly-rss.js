@@ -9,7 +9,7 @@ fs.readFile('rss.xsl', function(err, data) {
 });
 
 var s = http.createServer(function(req, res) {
-    var tag = req.headers['host'].split(/[:,]+/)[0],
+    var tag = req.headers['host'].split(/[:.]+/)[0],
         now = new Date();
         
     if (req.url === "/rss.xsl") {

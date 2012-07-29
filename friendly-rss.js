@@ -1,6 +1,5 @@
 var http = require('http'),
     fs = require('fs'),
-    feeds = {},
     xsl = '';
 
 fs.readFile('rss.xsl', function(err, data) {
@@ -20,23 +19,16 @@ var s = http.createServer(function(req, res) {
     
     res.writeHead(200, { 'content-type': 'application/xml' });
     
-//    if (feeds[tag] && now < (feeds[tag].time + 300000)) {
-//        res.end(feeds[tag].text);
-//    }
-//    else {
-        http.get("http://grabbit.lucasrichter.id.au/download_jobs/tagged/" + tag + "/feed.rss", 
-            function(r) {
-                feed = {time: now, text: ''}
-                r.on('data', function(chunk) { 
-                    var mod_chunk = chunk.toString().replace("<?xml version=\"1.0\"?>", "<?xml version=\"1.0\"?>\n<?xml-stylesheet type=\"text/xsl\" href=\"/rss.xsl\" ?>");
-                    feed.text += mod_chunk;
-                    res.write(mod_chunk) 
-                });
-                r.on('end', function() { 
-                    res.end(); 
-                });
+    http.get("http://grabbit.lucasrichter.id.au/download_jobs/tagged/" + tag + "/feed.rss", 
+        function(r) {
+            r.on('data', function(chunk) { 
+                var mod_chunk = chunk.toString().replace("<?xml version=\"1.0\"?>", "<?xml version=\"1.0\"?>\n<?xml-stylesheet type=\"text/xsl\" href=\"/rss.xsl\" ?>");
+                res.write(mod_chunk) 
             });
-//        }
+            r.on('end', function() { 
+                res.end(); 
+            });
+        });
     });
 
 var port = process.env.PORT || 5000;

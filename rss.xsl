@@ -32,6 +32,17 @@
 			<p>This page is styled after <a href="http://scripting.com/">Dave Winer</a>'s <a href="http://daveriver.scripting.com/">River of News</a>. It's built with <a href="http://jquery.com">jQuery</a> and <a href="http://twitter.github.com/bootstrap/">Bootstrap</a>, and gets its data from <a href="http://grabbit.lucasrichter.id.au/">Grabbit</a>.</p>
 		</div>
 	</section>
+	<script type="text/javascript" src="http://assets.lucasrichter.id.au/js/jquery-1.7.1.min.js"></script>
+	<script type="text/javascript">
+	$(function() {
+	    $.each($('.item a'), function() {
+	        var url = $(this).attr('href').replace(/https?:\/\//, '');
+	        var domain = url.substring(0,url.indexOf('/'));
+	        var i = $(document.createElement('img'));
+	        i.attr('src', 'http://www.google.com/s2/favicons?domain='+domain).attr('style', 'display:block;float:left;margin:3px 3px 0 0').prependTo($(this).closest('.item').find('h3'));
+	    });
+	});
+	</script>
 </body>
 </html>
 </xsl:template>

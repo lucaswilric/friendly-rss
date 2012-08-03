@@ -14,6 +14,9 @@
 		<div id="news">
           <xsl:for-each select="item">
             <div class="item row">
+                <xsl:attribute name="pub-date">
+                    <xsl:value-of select="pubDate"/>
+                </xsl:attribute>
                 <div class="span10 offset1">
                     <h3><span class="icon-chevron-right"></span
                         ><a>
@@ -23,6 +26,14 @@
                             <xsl:value-of select="title"/>
                         </a>
                     </h3>
+                    <xsl:if test="source">
+                        <span class="link-attribution">
+                            from
+                            <em>
+                                <xsl:value-of select="source"/>
+                            </em>
+                        </span>
+                    </xsl:if>
                 </div>
             </div>
           </xsl:for-each>
@@ -32,14 +43,30 @@
 			<p>This page is styled after <a href="http://scripting.com/">Dave Winer</a>'s <a href="http://daveriver.scripting.com/">River of News</a>. It's built with <a href="http://jquery.com">jQuery</a> and <a href="http://twitter.github.com/bootstrap/">Bootstrap</a>, and gets its data from <a href="http://grabbit.lucasrichter.id.au/">Grabbit</a>.</p>
 		</div>
 	</section>
+	<div id="templates">
+		<div id="date-header-template" class="day-header row">
+			<h2 class="offset1"></h2>
+		</div>
+	</div>
 	<script type="text/javascript" src="http://assets.lucasrichter.id.au/js/jquery-1.7.1.min.js"></script>
 	<script type="text/javascript">
 	$(function() {
-	    $.each($('.item a'), function() {
-	        var url = $(this).attr('href').replace(/https?:\/\//, '');
+	    window.last_pub_date = '';
+	    $.each($('.item'), function() {
+            var $this = $(this);
+	        var url = $this.find('a').attr('href').replace(/https?:\/\//, '');
 	        var domain = url.substring(0,url.indexOf('/'));
 	        var i = $(document.createElement('img'));
-	        i.attr('src', 'http://www.google.com/s2/favicons?domain='+domain).attr('class', 'domain-icon').prependTo($(this).closest('.item').find('h3'));
+	        i.attr('src', 'http://www.google.com/s2/favicons?domain='+domain).attr('class', 'domain-icon').prependTo($this.find('h3'));
+	        
+	        var pub_date = $this.attr('pub-date');
+	        pub_date = pub_date.substring(0,pub_date.indexOf('201')+4);
+	        if (pub_date !== window.last_pub_date) {
+                window.last_pub_date = pub_date;
+                var header = $('#date-header-template').clone().attr('id', null);
+                header.find('h2').text(pub_date);
+                header.prependTo($this);
+            }
 	    });
 	});
 	</script>

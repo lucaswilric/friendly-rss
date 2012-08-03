@@ -39,7 +39,7 @@
 	        var url = $(this).attr('href').replace(/https?:\/\//, '');
 	        var domain = url.substring(0,url.indexOf('/'));
 	        var i = $(document.createElement('img'));
-	        i.attr('src', 'http://www.google.com/s2/favicons?domain='+domain).attr('style', 'display:block;float:left;margin:3px 3px 0 0').prependTo($(this).closest('.item').find('h3'));
+	        i.attr('src', 'http://www.google.com/s2/favicons?domain='+domain).attr('class', 'domain-icon').prependTo($(this).closest('.item').find('h3'));
 	    });
 	});
 	</script>

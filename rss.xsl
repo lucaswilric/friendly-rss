@@ -19,7 +19,7 @@
                 </xsl:attribute>
                 <div class="span10 offset1">
                     <h3><span class="icon-chevron-right"></span
-                        ><a>
+                        ><a target="_blank">
                             <xsl:attribute name="href">
                                 <xsl:value-of select="link"/>
                             </xsl:attribute>
